@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
@@ -69,8 +70,11 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'assets/index.html'
+            template: './src/public/index.html'
         }),
-        new ExtractTextPlugin('index.css')
+        new ExtractTextPlugin('index.css'),
+        new CopyWebpackPlugin([
+            {from: './src/assets', to: 'images'}
+        ])
     ]
 }

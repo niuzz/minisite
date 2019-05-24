@@ -2,6 +2,6 @@ import './index.scss'
 
 const name = 'Jason';
 
-
-document.body.innerHTML = name;
+console.log(name);
+// document.body.innerHTML = name;
 
