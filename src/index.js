@@ -1,4 +1,5 @@
 import './index.scss'
+import './utils/rem'
 
 const name = 'Jason';
 

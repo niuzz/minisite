@@ -2,8 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
@@ -17,7 +17,7 @@ module.exports = {
 
   devServer: {
     port: 3000,
-    open: true,
+    open: true
     // hot: true, //配上反而不能自动刷新
     // hotOnly:true
   },
@@ -35,7 +35,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: "css-loader",
-          publicPath: './images' // css 引用图片路径
+          publicPath: "./images" // css 引用图片路径
         })
       },
       {
@@ -43,7 +43,24 @@ module.exports = {
         include: [path.resolve(__dirname, "src")],
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ["css-loader", "sass-loader"]
+          use: [
+            "css-loader",
+            {
+              loader: "postcss-loader",
+              options: {
+                plugins: [
+                  require("postcss-pxtorem")({
+                    rootValue: 32,
+                    propList: ["*"],
+                    // 注意：如果有使用第三方UI如VUX，则需要配置下忽略选择器不转换。
+                    // 规则是class中包含的字符串，如vux中所有的class前缀都是weui-。也可以是正则。
+                    selectorBlackList: ["weui-"]
+                  })
+                ]
+              }
+            },
+            "sass-loader"
+          ]
         })
       },
       {
@@ -65,12 +82,14 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [ {
-          loader: 'html-loader',
-          options: {
-            minimize: true
+        use: [
+          {
+            loader: "html-loader",
+            options: {
+              minimize: true
+            }
           }
-        }],
+        ]
       }
     ]
   },
@@ -87,11 +106,11 @@ module.exports = {
   },
 
   plugins: [
- 
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./src/public/index.html",
-      minify: { // 压缩 HTML 的配置
+      minify: {
+        // 压缩 HTML 的配置
         minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
         minifyJS: true // 压缩 HTML 中出现的 JS 代码
       }
@@ -103,5 +122,5 @@ module.exports = {
     new CleanWebpackPlugin()
   ],
 
-  devtool: 'source-map',
+  devtool: "source-map"
 };
