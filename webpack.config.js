@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -75,7 +76,7 @@ module.exports = {
   },
 
   optimization: {
-    namedModules: true
+    namedModules: true //用于启动 HMR 时显示模块的相对路径 4 废除了插件形式
   },
 
   // 代码模块路径
@@ -86,13 +87,21 @@ module.exports = {
   },
 
   plugins: [
+ 
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: "./src/public/index.html"
+      template: "./src/public/index.html",
+      minify: { // 压缩 HTML 的配置
+        minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
+        minifyJS: true // 压缩 HTML 中出现的 JS 代码
+      }
     }),
-    new ExtractTextPlugin("[name].css"),
+    new ExtractTextPlugin("[name].[hash].css"),
     // new webpack.NamedModulesPlugin(), //用于启动 HMR 时显示模块的相对路径 4废除了
-     new webpack.HotModuleReplacementPlugin(), // 热替换插件
+    new webpack.HotModuleReplacementPlugin(), // 热替换插件
     // new CopyWebpackPlugin([{ from: "./src/assets", to: "images" }]) // copy img用，html-loader后不再需要
-  ]
+    new CleanWebpackPlugin()
+  ],
+
+  devtool: 'source-map',
 };
