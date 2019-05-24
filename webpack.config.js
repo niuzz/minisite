@@ -2,13 +2,23 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.js",
 
   output: {
+    // publicPath: '/dist/',
+    // contentBase: './dist',
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    filename: "bundle.js?v=[hash]"
+  },
+
+  devServer: {
+    port: 3000,
+    open: true,
+    // hot: true, //配上反而不能自动刷新
+    // hotOnly:true
   },
 
   module: {
@@ -64,6 +74,10 @@ module.exports = {
     ]
   },
 
+  optimization: {
+    namedModules: true
+  },
+
   // 代码模块路径
   resolve: {
     modules: ["node_modules", path.resolve(__dirname, "src")],
@@ -77,6 +91,8 @@ module.exports = {
       template: "./src/public/index.html"
     }),
     new ExtractTextPlugin("[name].css"),
-    // new CopyWebpackPlugin([{ from: "./src/assets", to: "images" }])
+    // new webpack.NamedModulesPlugin(), //用于启动 HMR 时显示模块的相对路径 4废除了
+     new webpack.HotModuleReplacementPlugin(), // 热替换插件
+    // new CopyWebpackPlugin([{ from: "./src/assets", to: "images" }]) // copy img用，html-loader后不再需要
   ]
 };
