@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
@@ -9,7 +10,51 @@ module.exports = {
         filename: 'bundle.js'
     },
 
-    module: {},
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)?$/,
+                include: [
+                    path.resolve(__dirname, 'src'),
+                ],
+                loader: 'babel-loader',
+            },
+            {
+                test: /\.css$/,
+                include: [
+                    path.resolve(__dirname, 'src')
+                ],
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
+            },
+            {
+                test: /\.(scss|sass)$/,
+                include: [
+                    path.resolve(__dirname, 'src')
+                ],
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                })
+            },
+            {
+                test:/\.(png|jpg|jpeg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            outputPath: 'images'
+                        }
+                    }
+                ]
+            }
+        ]
+    },
 
     // 代码模块路径
     resolve: {
@@ -25,6 +70,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'assets/index.html'
-        })
+        }),
+        new ExtractTextPlugin('index.css')
     ]
 }
