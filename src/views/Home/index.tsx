@@ -1,13 +1,11 @@
-import * as React from "react"
+import * as React from "react";
 
-import { ComponentExt } from "@utils/reactExt"
+import { ComponentExt } from "@utils/reactExt";
 
 class Home extends ComponentExt {
-    render() {
-        return(
-            <div>Home</div>
-        )
-    }
+  render() {
+    return <div>Home</div>;
+  }
 }
 
-export default Home
+export default Home;
