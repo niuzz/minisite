@@ -1,10 +1,11 @@
-const HtmlwebpackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlwebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const Webpack = require('webpack')
 
 module.exports = [
   new HtmlwebpackPlugin({
-    template: "public/index.html",
+    template: 'public/index.html',
     minify: {
       // 压缩选项
       removeComments: true, // 删除注释
@@ -12,8 +13,9 @@ module.exports = [
       removeAttributeQuotes: true // 删除属性引号
     }
   }),
+  new Webpack.HotModuleReplacementPlugin(),
   new MiniCssExtractPlugin({
-    filename: "css/[name].[hash].css"
+    filename: 'css/[name].[hash].css'
   }),
   new CleanWebpackPlugin()
-];
+]

@@ -1,14 +1,18 @@
-import * as React from "react";
+import * as React from 'react'
 
 @log
 class Header extends React.Component {
   render() {
-    return <div>header is here! <a href="/#/home">home</a> <a href="/#/page">page</a></div>;
+    return (
+      <div>
+        header is here! <a href='/#/'>home</a> <a href='/#/page'>page</a>
+      </div>
+    )
   }
 }
 
 function log(target: any) {
-  console.log(target);
+  console.log(target)
 }
 
-export default Header;
+export default Header

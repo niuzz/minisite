@@ -7,7 +7,6 @@ import { createHashHistory } from "history";
 
 import AppRouter from "@shared/App";
 
-// import Test from '@components/Test'
 const hashHistory = createHashHistory();
 
 const render = (Component: React.ComponentType) => {

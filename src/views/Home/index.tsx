@@ -1,11 +1,17 @@
-import * as React from "react";
+import * as React from 'react'
 
-import { ComponentExt } from "@utils/reactExt";
+import { ComponentExt } from '@utils/reactExt'
+import Counter from '@components/Counter'
 
 class Home extends ComponentExt {
   render() {
-    return <div>Home</div>;
+    return (
+      <div>
+        <div> HOME  1OO </div>
+        <Counter value={ 2131 } />
+      </div>
+    )
   }
 }
 
-export default Home;
+export default Home
